@@ -22,13 +22,23 @@
       shell: "aicli list cluster | grep {{ cluster_name_var }} | cut -d '|' -f3 | tr -d ' '"
       register: cluster_id
 
+    - name: Get AI token
+      set_fact:
+        ai_token: "{{ lookup('file', '/home/phuet/ai_token.txt') }}"
+
+    - name: Show ai_token
+      debug:
+        msg: "{{ ai_token }}"
+
     - name: Set the right network type
       uri:
         url: "{{ ai_url }}/api/assisted-install/v1/clusters/{{ cluster_id.stdout }}/install-config"
         method: PATCH
+        headers:
+          authorization: "Bearer {{ ai_token }}"
         body: '"{\"networking\": {\"networkType\": \"{{ cluster_sdn | default("OVNKubernetes") }}\"}}"'
         body_format: json
         status_code: 201
   environment:
     AI_URL: "{{ ai_url }}"
-
+    AI_OFFLINETOKEN: "{{ aicli_offline_token }}"

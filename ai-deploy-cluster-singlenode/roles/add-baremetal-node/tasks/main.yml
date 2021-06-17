@@ -21,3 +21,4 @@
   delay: 30
   environment:
     AI_URL: "{{ ai_url }}"
+    AI_OFFLINETOKEN: "{{ aicli_offline_token }}"

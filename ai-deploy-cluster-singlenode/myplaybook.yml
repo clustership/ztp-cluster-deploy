@@ -1,0 +1,31 @@
+---
+- name: Deploy single node cluster with assisted installer
+  hosts: provisioner
+  environment:
+    PATH: "/usr/bin/:/usr/local/bin/:{{ ansible_env.PATH }}"
+  vars:
+    # aicli_offline_token: "{{ ansible_env.AI_OFFLINETOKEN }}"
+    aicli_offline_token: "<PUT YOUR OFFLINE TOKEN HERE>"
+  roles:
+    - role: ../common-roles/common
+      tags: always
+      become: yes
+    - role: prepare-environment
+      tags: prepare-environment
+      become: yes
+    - role: create-cluster
+      tags: create-cluster
+      become: yes
+    - role: enable-workload-partitioning
+      tags: enable-workload-partitioning
+      become: yes
+    - role: ../common-roles/apply-custom-manifests
+      tags: apply-custom-manifests
+      become: yes
+    - role: add-baremetal-node
+      tags: add-baremetal-node
+      become: yes
+    - role: deploy-cluster
+      tags: deploy-cluster
+      become: yes
+

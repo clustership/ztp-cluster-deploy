@@ -12,6 +12,7 @@
   when: hostname is defined
   environment:
     AI_URL: "{{ ai_url }}"
+    AI_OFFLINETOKEN: "{{ aicli_offline_token }}"
 
 - name: Configure cluster
   block:
@@ -26,4 +27,4 @@
       shell: "aicli start cluster {{ cluster_name }}"
   environment:
     AI_URL: "{{ ai_url }}"
-
+    AI_OFFLINETOKEN: "{{ aicli_offline_token }}"

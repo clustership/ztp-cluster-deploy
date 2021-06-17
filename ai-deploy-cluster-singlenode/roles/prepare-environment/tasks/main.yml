@@ -40,9 +40,14 @@
   include_role:
     name: "{{ playbook_dir }}/../common-roles/install-aicli"
 
+- name: "Show {{ aicli_offline_token }}"
+  debug:
+    msg: "{{ aicli_offline_token }}"
+
 - name: install assisted installer
   include_role:
     name: "{{ playbook_dir }}/../common-roles/install-assisted-installer"
+  when: "{{ False and aicli_offline_token is not defined }}"
   vars:
     onprem_vars:
       - - "SUPPORT_L2=false"
