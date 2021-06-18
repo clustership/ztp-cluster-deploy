@@ -4,8 +4,16 @@
   environment:
     PATH: "/usr/bin/:/usr/local/bin/:{{ ansible_env.PATH }}"
   vars:
-    # aicli_offline_token: "{{ ansible_env.AI_OFFLINETOKEN }}"
-    aicli_offline_token: "<PUT YOUR OFFLINE TOKEN HERE>"
+    aicli_offline_token: "{{ lookup('env', 'AI_OFFLINETOKEN') }}"
+    user_home: "{{ lookup('env', 'HOME') }}"
+    # aicli_offline_token: "<PUT YOUR OFFLINE TOKEN HERE>"
+
+  pre_tasks:
+  - name: Assert aicli_offline_token
+    ansible.builtin.assert:
+      that:
+      - aicli_offline_token is defined
+
   roles:
     - role: ../common-roles/common
       tags: always

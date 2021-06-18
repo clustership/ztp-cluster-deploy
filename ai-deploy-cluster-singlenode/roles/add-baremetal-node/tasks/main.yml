@@ -13,6 +13,13 @@
     iso_name: "{{ cluster_name }}.iso"
   when: bmc_type == "Dell"
 
+- name: Enroll a HP node
+  include_role:
+    name: "{{ playbook_dir }}/../common-roles/enroll-hp"
+  vars:
+    iso_name: "{{ cluster_name }}.iso"
+  when: bmc_type == "HPILO"
+
 - name: Wait until hosts are ready in Assisted Installer
   shell: "aicli list hosts | grep {{ cluster_name }} | grep 'insufficient\\|known' | wc -l"
   register: hosts_ready
