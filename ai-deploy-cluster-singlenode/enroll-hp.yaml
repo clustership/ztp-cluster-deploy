@@ -1,0 +1,10 @@
+---
+- name: Manage HP server through ILO
+  hosts: provisioner
+  environment:
+    PATH: "/usr/bin/:/usr/local/bin/:{{ ansible_env.PATH }}"
+  vars:
+    aicli_offline_token: "<PUT YOUR OFFLINE TOKEN HERE>"
+  roles:
+    - role: ../common-roles/enroll-hp
+      tags: always
