@@ -1,35 +1,32 @@
 - name: Disconnect current ISO media
   community.general.hpilo_boot:
-    host: "{{ bmc_address }}"
-    login: "{{ bmc_user }}"
-    password: "{{ bmc_password }}"
+    host: "{{ bmc_address }}"
+    login: "{{ bmc_user }}"
+    password: "{{ bmc_password }}"
     media: cdrom
-    # image: http://10.20.129.82/RH_POC/poc1/poc1.iso
-    image: "{{ iso_url }}/{{ cluster_name }}.iso"
     state: disconnect
   delegate_to: localhost
 
 - name: Connect AI ISO media
   community.general.hpilo_boot:
-    host: "{{ bmc_address }}"
-    login: "{{ bmc_user }}"
-    password: "{{ bmc_password }}"
+    host: "{{ bmc_address }}"
+    login: "{{ bmc_user }}"
+    password: "{{ bmc_password }}"
     media: cdrom
-    # image: http://10.20.129.82/RH_POC/poc1/poc1.iso
-    image: "{{ iso_url }}/{{ final_iso_path }}"
+    image: "{{ iso_url }}/{{ cluster_name }}.iso"
     state: connect
   delegate_to: localhost
 
 - name: Poweroff the SNO server
   community.general.hpilo_boot:
-    host: "{{ bmc_address }}"
-    login: "{{ bmc_user }}"
-    password: "{{ bmc_password }}"
+    host: "{{ bmc_address }}"
+    login: "{{ bmc_user }}"
+    password: "{{ bmc_password }}"
     state: poweroff
   delegate_to: localhost
 
 - name: Wait for server to be off
-  command: "ipmitool -I lanplus -U {{ bmc_user }} -P {{ bmc_password }} -H {{ bmc_address }} chassis power status"
+  command: "ipmitool -I lanplus -U {{ bmc_user }} -P {{ bmc_password }} -H {{ bmc_address }} chassis power status"
   register: ilo_result
   until: "'Chassis Power is off' in ilo_result.stdout"
   retries: 12
@@ -38,9 +35,9 @@
 
 - name: Reboot the SNO server
   community.general.hpilo_boot:
-    host: "{{ bmc_address }}"
-    login: "{{ bmc_user }}"
-    password: "{{ bmc_password }}"
+    host: "{{ bmc_address }}"
+    login: "{{ bmc_user }}"
+    password: "{{ bmc_password }}"
     state: boot_once
   delegate_to: localhost
 
