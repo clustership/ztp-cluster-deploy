@@ -2,3 +2,4 @@
 collections:
   - name: containers.podman
   - name: community.general
+  - name: community.general.hpilo_boot
