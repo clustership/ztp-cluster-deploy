@@ -24,7 +24,7 @@
 
     - name: Get AI token
       set_fact:
-        ai_token: "{{ lookup('file', '/home/phuet/ai_token.txt') }}"
+        ai_token: "{{ lookup('file', user_home + '/ai_token.txt') }}"
 
     - name: Show ai_token
       debug:

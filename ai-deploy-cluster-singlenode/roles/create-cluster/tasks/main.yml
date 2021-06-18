@@ -1,13 +1,13 @@
 ---
 - block:
   - set_fact:
-      proxy_extra_args: "{% if http_proxy is defined %} -P http_proxy=\"{{ http_proxy }}\"{% endif %}{% if https_proxy is defined %} -P https_proxy=\"{{ https_proxy }}\"{% endif %}{% if no_proxy is defined %} -P no_proxy=\"{{ no_proxy }}\"{% endif %}"
+      proxy_extra_args: "{% if http_proxy is defined %} -P http_proxy='{{ http_proxy }}'{% endif %}{% if https_proxy is defined %} -P https_proxy='{{ https_proxy }}'{% endif %}{% if no_proxy is defined %} -P no_proxy='{{ no_proxy }}'{% endif %}"
 
 - name: create cluster
   include_role:
     name: "{{ playbook_dir }}/../common-roles/create-cluster"
   vars:
-    extra_args: "-P high_availability_mode=None{{ proxy_extra_args }}"
+    extra_args: "-P high_availability_mode=None{% if cluster_network_cidr is defined %} -P cluster_network_cidr={{ cluster_network_cidr }}{% endif %}{{ proxy_extra_args }}"
     cluster_name_var: "{{ cluster_name }}"
 
 - name: download ISO
