@@ -7,7 +7,8 @@
   include_role:
     name: "{{ playbook_dir }}/../common-roles/create-cluster"
   vars:
-    extra_args: "-P high_availability_mode=None{% if cluster_network_cidr is defined %} -P cluster_network_cidr={{ cluster_network_cidr }}{% endif %}{{ proxy_extra_args }}"
+    # extra_args: "-P high_availability_mode=None{% if cluster_network_cidr is defined %} -P cluster_network_cidr={{ cluster_network_cidr }}{% endif %}{{ proxy_extra_args }}"
+    extra_args: "-P high_availability_mode=None{{ proxy_extra_args }}"
     cluster_name_var: "{{ cluster_name }}"
 
 - name: download ISO
