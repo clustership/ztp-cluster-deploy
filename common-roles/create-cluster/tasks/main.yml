@@ -30,15 +30,22 @@
       debug:
         msg: "{{ ai_token }}"
 
+    #
+    # could be better managed with update
+    #
+    
     - name: Set the right network type
-      uri:
-        url: "{{ ai_url }}/api/assisted-install/v1/clusters/{{ cluster_id.stdout }}/install-config"
-        method: PATCH
-        headers:
-          authorization: "Bearer {{ ai_token }}"
-        body: '"{\"networking\": {\"networkType\": \"{{ cluster_sdn | default("OVNKubernetes") }}\"}}"'
-        body_format: json
-        status_code: 201
+      command: "aicli update cluster -P network_type=\"{{ cluster_sdn | default('OVNKubernetes') }}\" {{ cluster_name }}"
+
+#    - name: Set the right network type
+#      uri:
+#        url: "{{ ai_url }}/api/assisted-install/v1/clusters/{{ cluster_id.stdout }}/install-config"
+#        method: PATCH
+#        headers:
+#          authorization: "Bearer {{ ai_token }}"
+#        body: '"{\"networking\": {\"networkType\": \"{{ cluster_sdn | default("OVNKubernetes") }}\"}}"'
+#        body_format: json
+#        status_code: 201
   environment:
     AI_URL: "{{ ai_url }}"
     AI_OFFLINETOKEN: "{{ aicli_offline_token }}"
