@@ -7,16 +7,6 @@
     state: disconnect
   delegate_to: localhost
 
-#- name: Connect AI ISO media
-#  community.general.hpilo_boot:
-#    host: "{{ bmc_address }}"
-#    login: "{{ bmc_user }}"
-#    password: "{{ bmc_password }}"
-#    media: cdrom
-#    image: "{{ iso_url }}/{{ cluster_name }}.iso"
-#    state: connect
-#  delegate_to: localhost
-
 - name: Poweroff the SNO server
   community.general.hpilo_boot:
     host: "{{ bmc_address }}"
@@ -32,6 +22,16 @@
   retries: 12
   delay: 10
   changed_when: false
+
+- name: Connect AI ISO media
+  community.general.hpilo_boot:
+    host: "{{ bmc_address }}"
+    login: "{{ bmc_user }}"
+    password: "{{ bmc_password }}"
+    media: cdrom
+    image: "{{ iso_url }}/{{ cluster_name }}.iso"
+    state: connect
+  delegate_to: localhost
 
 - name: Reboot the SNO server
   community.general.hpilo_boot:
