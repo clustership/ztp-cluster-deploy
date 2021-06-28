@@ -16,6 +16,14 @@
 
 - name: Configure cluster
   block:
+    - name: Set API VIP
+      command: "aicli update cluster -P machine_network_cidr={{ machine_network_cidr }} {{ cluster_name }}"
+      retries: 20
+      delay: 10
+      register: result
+      until: result.rc == 0
+      when: machine_network_cidr is defined
+
     - name: Wait until cluster is ready to be installed
       shell: "aicli list cluster | grep {{ cluster_name }} |  cut -d '|' -f4 | tr -d ' '"
       register: cluster_ready
