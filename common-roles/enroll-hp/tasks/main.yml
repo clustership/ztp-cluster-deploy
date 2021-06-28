@@ -5,6 +5,7 @@
     password: "{{ bmc_password }}"
     media: cdrom
     state: disconnect
+  ignore_errors: True
   delegate_to: localhost
 
 - name: Poweroff the SNO server
